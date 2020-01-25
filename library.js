@@ -3,6 +3,7 @@ const { prompt } = require('inquirer');
 require('console.table');
 require('dotenv').config()
 
+//Connects to MySQL AWS server
 const connection = mysql.createConnection({
     host: process.env.host,
     port: process.env.port,
@@ -10,6 +11,12 @@ const connection = mysql.createConnection({
     password: process.env.password,
     database: process.env.database
 });
+
+//Helper function
+//Detects empty entry for validation
+const isEmpty = val => {
+    return (val !== '')
+};
 
 // Connects to database and runs library function to initiate menu
 connection.connect(err => {    
@@ -25,7 +32,7 @@ const loadLibrary = () => {
     });
 };
 
-// Start menu - accepts choices to manipulate and view library
+// Start menu - accepts choices to view and manipulate library
 const startLibrary = res => {
     prompt([
         {
@@ -67,10 +74,12 @@ const viewBooks = res => {
             message: 'Type in the ID of the book you\'d like to view, or press <Enter> to leave.'
         }
     ]).then(answer => {
+        // stops user from entering invalid IDs
         if (isNaN(answer.id) || !res[answer.id - 1]){
             console.log('Not a valid ID');
             loadLibrary();
         }
+        // enter command to return
         if (answer.id == ''){
             loadLibrary()
         }
@@ -88,17 +97,20 @@ const addBook = () => {
         {
             type: 'input',
             name: 'title',
-            message: 'Book Title:'
+            message: 'Book Title:',
+            validate: isEmpty
         },
         {
             type: 'input',
             name: 'author',
-            message: 'Author:'
+            message: 'Author:',
+            validate: isEmpty
         },
         {
             type: 'input',
             name: 'description',
-            message: 'Description:'
+            message: 'Description:',
+            validate: isEmpty
         }
     ]).then(answer => {
         connection.query(
@@ -123,6 +135,7 @@ const editBook = res => {
             message: 'Type in the ID of the book you\'d like to edit'
         }
     ]).then(answer => {
+        //stops user from entering an invalid ID
         if (isNaN(answer.id) || !res[answer.id - 1]){
             console.log('Not a valid ID');
             loadLibrary();
@@ -173,11 +186,16 @@ const searchBook = () => {
             message: 'Search term: '
         }
     ]).then(answer => {
-        connection.query(`SELECT * FROM books WHERE title LIKE '%${answer.keyword}%' OR author LIKE '%${answer.keyword}%'`,
+        connection.query(`SELECT * FROM books WHERE title LIKE '%${answer.keyword}%' OR author LIKE '%${answer.keyword}%' OR description LIKE '%${answer.keyword}%'`,
             (err, res) => {
                 if (err) throw err;
-                console.info(`Your search has ${res.length} results! Here they are:`)
-                console.table(res);
+                // Changes response based on results (if there are any)
+                if(res.length == 0){
+                    console.info('There are no books with your search term in it.');
+                } else {
+                    console.info(`Your search has ${res.length} result(s)! Here they are:`);
+                    console.table(res);
+                }
                 loadLibrary();
             }
         );
