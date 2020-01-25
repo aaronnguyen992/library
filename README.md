@@ -37,11 +37,11 @@ Selecting "Search for a book" will prompt the user for a search term. This term 
 Exit the interface
 
 ## Built With
-- JavaScript + Node.js - Programming language used to write scripts and handle package management.
-- Inquirer - NPM package used to create prompts in Node.js.
-- console.table - Added method to easily pass database data in readable table format.
-- MySQL - Relational database used to maintain book data.
-- Amazon RDS in AWS - Cloud based relational database service that stores MySQL data.
+- JavaScript + [Node.js](https://nodejs.org/en/) - Programming language used to write scripts and handle package management.
+- [Inquirer](https://www.npmjs.com/package/inquirer) - NPM package used to create prompts in Node.js.
+- [console.table](https://www.npmjs.com/package/console.table) - Added method to easily pass database data in readable table format.
+- [MySQL](https://www.mysql.com/) - Relational database used to maintain book data.
+- [Amazon RDS in AWS](https://aws.amazon.com/rds/) - Cloud based relational database service that stores MySQL data.
 
 ## Authors
 Aaron Nguyen
