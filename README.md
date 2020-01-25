@@ -19,7 +19,7 @@ node library.js
 ```
 
 ## Interface 
-You'll see a menu with the following choices. Use the arrow keys to navigate and select choices. All selections except for save and exit will eventually return to this menu. 
+You'll see a menu with the following choices. Use the arrow keys to navigate and select choices. All selections except for "Save and Exit" will return to this menu. 
 
 ### View All Books
 Selecting "View All Books" will produce a numbered list (by ID) of all the books in the database. Enter a valid ID number to view book details, or press enter to leave.
