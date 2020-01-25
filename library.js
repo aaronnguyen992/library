@@ -76,18 +76,15 @@ const viewBooks = res => {
     ]).then(answer => {
         // stops user from entering invalid IDs
         if (isNaN(answer.id) || !res[answer.id - 1]){
-            console.log('Not a valid ID');
+            if (answer.id !== ''){console.log('Not a valid ID');}
+            loadLibrary();
+        } else {
+            console.info(`ID: ${res[answer.id - 1].id}`);
+            console.info(`Title: ${res[answer.id - 1].title}`);
+            console.info(`Author: ${res[answer.id - 1].author}`);
+            console.info(`Description: ${res[answer.id - 1].description}`);
             loadLibrary();
         }
-        // enter command to return
-        if (answer.id == ''){
-            loadLibrary()
-        }
-        console.info(`ID: ${res[answer.id - 1].id}`);
-        console.info(`Title: ${res[answer.id - 1].title}`);
-        console.info(`Author: ${res[answer.id - 1].author}`);
-        console.info(`Description: ${res[answer.id - 1].description}`);
-        loadLibrary();
     });
 };
 
